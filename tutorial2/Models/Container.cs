@@ -85,7 +85,21 @@ public abstract class Container
             throw new OverfillException(
                 $"Cannot load this mass of cargo {massOfCargo}, maximum payload is {this.MaxPayload} and there is already {this.CargoWeight} loaded");
         }
-        
+
         this.CargoWeight += massOfCargo;
     }
+
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"Container {SerialNumber}: ");
+        sb.AppendLine($"Height={Height} cm, ");
+        sb.AppendLine($"TareWeight={TareWeight} kg, ");
+        sb.AppendLine($"CargoWeight={CargoWeight} kg, ");
+        sb.AppendLine($"Depth={Depth} dm, ");
+        sb.AppendLine($"MaxPayload={MaxPayload} kg, ");
+
+        return sb.ToString();
+    }
+    
 }

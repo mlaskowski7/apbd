@@ -39,4 +39,9 @@ public class RefrigeratedContainer : Container
         
         this.LoadContainer(massOfCargo);
     }
+
+    public override string ToString()
+    {
+        return this.ToString() + $"\nProductType={this.ProductType}\nTemperature={this.Temperature}";
+    }
 }

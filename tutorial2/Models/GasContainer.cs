@@ -28,4 +28,9 @@ public class GasContainer : Container, IHazardNotifier
     {
         this.CargoWeight *= 0.05;
     }
+
+    public override string ToString()
+    {
+        return base.ToString() + $"\nPressure={this.Pressure}";
+    }
 }
