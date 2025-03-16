@@ -8,4 +8,4 @@ Container liquidContainer = new LiquidContainer(
     maxPayload: 5000);
 var ship = new Ship(null, 30, 5, 100000);
 ship.LoadContainer(liquidContainer);
-    
+Console.WriteLine(ship);

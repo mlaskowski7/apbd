@@ -1,5 +1,3 @@
-using NUnit.Framework;
-using NUnit.Framework.Legacy;
 using tutorial2.Exceptions;
 using tutorial2.Models;
 
