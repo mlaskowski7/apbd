@@ -8,44 +8,44 @@ public abstract class Container
     private static readonly string SerialNumberPrefix = "KON";
     private static readonly string SerialNumberSeparator = "-";
     
-    private static int uniqueCounter;
-    private int uniqueNumber;
+    private static int _uniqueCounter;
+    private readonly int _uniqueNumber;
 
     protected Container()
     {
-        this.uniqueNumber = uniqueCounter;
-        uniqueCounter++;
+        this._uniqueNumber = _uniqueCounter;
+        _uniqueCounter++;
     }
 
     /// <summary>
     /// The mass of the cargo (in kilograms).
     /// </summary>
-    public decimal CargoMass => this.CargoWeight + this.TareWeight;
+    public double CargoMass => this.CargoWeight + this.TareWeight;
 
     /// <summary>
     /// Height (in centimeters).
     /// </summary>
-    public decimal Height { get; set; }
+    public double Height { get; set; }
     
     /// <summary>
     /// Weight of the container itself, in kilograms.
     /// </summary>
-    public decimal TareWeight { get; set; }
+    public double TareWeight { get; set; }
     
     /// <summary>
     /// Weight of the cargo itself.
     /// </summary>
-    public decimal CargoWeight { get; set; }
+    public double CargoWeight { get; set; }
     
     /// <summary>
     /// Depth, in centimeters.
     /// </summary>
-    public decimal Depth { get; set; }
+    public double Depth { get; set; }
     
     /// <summary>
     /// Maximum payload in kilograms.
     /// </summary>
-    public decimal MaxPayload { get; set; }
+    public double MaxPayload { get; set; }
 
     public string SerialNumber
     {
@@ -55,7 +55,7 @@ public abstract class Container
             sb.Append(SerialNumberSeparator);
             sb.Append(this.GetTypeForSerialNumber());
             sb.Append(SerialNumberSeparator);
-            sb.Append(this.uniqueNumber);
+            sb.Append(this._uniqueNumber);
             return sb.ToString();
         }
     }
@@ -67,7 +67,7 @@ public abstract class Container
         this.CargoWeight = 0;
     }
 
-    public virtual void LoadContainer(decimal massOfCargo)
+    public void LoadContainer(double massOfCargo)
     {
         if (this.CargoWeight + massOfCargo > this.MaxPayload)
         {
