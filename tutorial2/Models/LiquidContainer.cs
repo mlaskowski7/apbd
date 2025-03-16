@@ -5,6 +5,15 @@ namespace tutorial2.Models;
 
 public class LiquidContainer : Container, IHazardNotifier
 {
+    public LiquidContainer(
+        double height, 
+        double tareWeight, 
+        double cargoWeight, 
+        double depth, 
+        double maxPayload) : base(height, tareWeight, cargoWeight, depth, maxPayload)
+    {
+    }
+
     protected override char GetTypeForSerialNumber() => 'L';
     
     public void NotifyAboutHazardousSituation()

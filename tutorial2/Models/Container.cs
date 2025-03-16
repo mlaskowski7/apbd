@@ -11,10 +11,21 @@ public abstract class Container
     private static int _uniqueCounter;
     private readonly int _uniqueNumber;
 
-    protected Container()
+    protected Container(
+        double height, 
+        double tareWeight, 
+        double cargoWeight, 
+        double depth, 
+        double maxPayload)
     {
         this._uniqueNumber = _uniqueCounter;
         _uniqueCounter++;
+        
+        this.Height = height;
+        this.TareWeight = tareWeight;
+        this.CargoWeight = cargoWeight;
+        this.Depth = depth;
+        this.MaxPayload = maxPayload;
     }
 
     /// <summary>
