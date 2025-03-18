@@ -2,7 +2,7 @@ using tutorial2.Interfaces;
 
 namespace tutorial2.Models;
 
-public class GasContainer : Container, IHazardNotifier
+public class GasContainer : HazardousContainer
 {
     public GasContainer(
         double height, 
@@ -18,11 +18,6 @@ public class GasContainer : Container, IHazardNotifier
     public double Pressure { get; set; }
     
     protected override char GetTypeForSerialNumber() => 'G';
-    
-    public void NotifyAboutHazardousSituation()
-    {
-        Console.WriteLine($"[DANGER] A hazardous situation occured in container {this.SerialNumber}");
-    }
     
     public override void EmptyTheCargo()
     {
