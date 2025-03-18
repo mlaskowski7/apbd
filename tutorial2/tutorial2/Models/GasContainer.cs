@@ -15,7 +15,7 @@ public class GasContainer : HazardousContainer
         this.Pressure = pressure > 0.0 ? pressure : throw new ArgumentOutOfRangeException(nameof(pressure), pressure, "pressure must be greater than zero");
     }
 
-    public double Pressure { get; set; }
+    public double Pressure { get; }
     
     protected override char GetTypeForSerialNumber() => 'G';
     

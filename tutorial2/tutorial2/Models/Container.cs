@@ -36,27 +36,27 @@ public abstract class Container
     /// <summary>
     /// Height (in centimeters).
     /// </summary>
-    public double Height { get; set; }
+    public double Height { get; }
     
     /// <summary>
     /// Weight of the container itself, in kilograms.
     /// </summary>
-    public double TareWeight { get; set; }
+    public double TareWeight { get; }
     
     /// <summary>
     /// Weight of the cargo itself.
     /// </summary>
-    public double CargoWeight { get; set; }
+    public double CargoWeight { get; protected set; }
     
     /// <summary>
     /// Depth, in centimeters.
     /// </summary>
-    public double Depth { get; set; }
+    public double Depth { get; }
     
     /// <summary>
     /// Maximum payload in kilograms.
     /// </summary>
-    public double MaxPayload { get; set; }
+    public double MaxPayload { get; }
 
     public string SerialNumber
     {

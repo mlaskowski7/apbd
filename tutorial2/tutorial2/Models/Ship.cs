@@ -14,13 +14,13 @@ public class Ship
         this.MaxWeight = maxWeight;
     }
 
-    public IEnumerable<Container> Containers { get; set; }
+    public IEnumerable<Container> Containers { get; private set; }
     
-    public int MaxSpeed { get; set; }
+    public int MaxSpeed { get; }
     
-    public int MaxContainers { get; set; }
+    public int MaxContainers { get; }
     
-    public double MaxWeight { get; set; }
+    public double MaxWeight { get; }
 
     public void LoadContainer(Container container)
     {

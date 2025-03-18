@@ -17,9 +17,9 @@ public class RefrigeratedContainer : Container
         this.Temperature = temperature;
     }
 
-    public string ProductType { get; set; }
+    public string ProductType { get; }
     
-    public double Temperature { get; set; }
+    public double Temperature { get; }
     
     protected override char GetTypeForSerialNumber() => 'C';
 
