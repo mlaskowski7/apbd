@@ -12,7 +12,7 @@ public class GasContainer : Container, IHazardNotifier
         double maxPayload, 
         double pressure) : base(height, tareWeight, cargoWeight, depth, maxPayload)
     {
-        this.Pressure = pressure;
+        this.Pressure = pressure > 0.0 ? pressure : throw new ArgumentOutOfRangeException(nameof(pressure), pressure, "pressure must be greater than zero");
     }
 
     public double Pressure { get; set; }

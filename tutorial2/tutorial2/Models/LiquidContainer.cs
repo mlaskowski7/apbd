@@ -23,6 +23,11 @@ public class LiquidContainer : Container, IHazardNotifier
     
     public void LoadContainer(double massOfCargo, bool isHazardous)
     {
+        if (massOfCargo <= 0)
+        {
+            throw new ArgumentException("massOfCargo cannot be negative or zero");
+        }
+        
         if (isHazardous && this.CargoWeight + massOfCargo > this.MaxPayload * 0.5)
         {
             throw new DangerousOperationException(

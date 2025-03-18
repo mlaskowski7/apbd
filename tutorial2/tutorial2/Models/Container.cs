@@ -21,11 +21,11 @@ public abstract class Container
         this._uniqueNumber = _uniqueCounter;
         _uniqueCounter++;
         
-        this.Height = height;
-        this.TareWeight = tareWeight;
+        this.Height = height > 0 ? height : throw new ArgumentOutOfRangeException(nameof(height));
+        this.TareWeight = tareWeight > 0 ? tareWeight : throw new ArgumentOutOfRangeException(nameof(tareWeight));
         this.CargoWeight = cargoWeight;
-        this.Depth = depth;
-        this.MaxPayload = maxPayload;
+        this.Depth = depth > 0 ? depth : throw new ArgumentOutOfRangeException(nameof(depth));
+        this.MaxPayload = maxPayload > 0 ? maxPayload : throw new ArgumentOutOfRangeException(nameof(maxPayload));
     }
 
     /// <summary>
@@ -80,6 +80,11 @@ public abstract class Container
 
     public void LoadContainer(double massOfCargo)
     {
+        if (massOfCargo <= 0)
+        {
+            throw new ArgumentException("massOfCargo cannot be negative or zero");
+        }
+        
         if (this.CargoWeight + massOfCargo > this.MaxPayload)
         {
             throw new OverfillException(

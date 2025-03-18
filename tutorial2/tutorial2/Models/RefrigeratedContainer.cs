@@ -13,7 +13,7 @@ public class RefrigeratedContainer : Container
         string productType, 
         double temperature) : base(height, tareWeight, cargoWeight, depth, maxPayload)
     {
-        this.ProductType = productType;
+        this.ProductType = string.IsNullOrEmpty(productType) ? throw new ArgumentNullException(nameof(productType)) : productType;
         this.Temperature = temperature;
     }
 
@@ -25,6 +25,11 @@ public class RefrigeratedContainer : Container
 
     public void LoadContainer(double massOfCargo, string productType, double minTemperature)
     {
+        if (massOfCargo <= 0)
+        {
+            throw new ArgumentException("massOfCargo cannot be negative or zero");
+        }
+        
         if (!productType.Equals(this.ProductType))
         {
             throw new ProductTypeNotAllowedException(
@@ -42,6 +47,6 @@ public class RefrigeratedContainer : Container
 
     public override string ToString()
     {
-        return this.ToString() + $"\nProductType={this.ProductType}\nTemperature={this.Temperature}";
+        return base.ToString() + $"\nProductType={this.ProductType}\nTemperature={this.Temperature}";
     }
 }
