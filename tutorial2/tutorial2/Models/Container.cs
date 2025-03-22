@@ -15,7 +15,8 @@ public abstract class Container
         double tareWeight, 
         double cargoWeight, 
         double depth, 
-        double maxPayload)
+        double maxPayload,
+        char typeCharacter)
     {
         this.Height = height > 0 ? height : throw new ArgumentOutOfRangeException(nameof(height));
         this.TareWeight = tareWeight > 0 ? tareWeight : throw new ArgumentOutOfRangeException(nameof(tareWeight));
@@ -23,6 +24,7 @@ public abstract class Container
         this.Depth = depth > 0 ? depth : throw new ArgumentOutOfRangeException(nameof(depth));
         this.MaxPayload = maxPayload > 0 ? maxPayload : throw new ArgumentOutOfRangeException(nameof(maxPayload));
         
+        TypeCharacter = typeCharacter;
         this.SerialNumber = this.GenerateSerialNumber();
     }
 
@@ -56,10 +58,9 @@ public abstract class Container
     /// </summary>
     public double MaxPayload { get; }
 
-    public string SerialNumber
-    { get; private set; }
+    public string SerialNumber { get; }
 
-    protected abstract char GetTypeForSerialNumber();
+    protected char TypeCharacter { get; }
 
     public virtual void EmptyTheCargo()
     {
@@ -99,7 +100,7 @@ public abstract class Container
     {
         var sb = new StringBuilder(SerialNumberPrefix);
         sb.Append(SerialNumberSeparator);
-        sb.Append(GetTypeForSerialNumber());
+        sb.Append(TypeCharacter);
         sb.Append(SerialNumberSeparator);
         sb.Append(_uniqueCounter++);
         return sb.ToString();

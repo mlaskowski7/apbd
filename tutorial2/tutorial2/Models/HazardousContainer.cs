@@ -9,7 +9,8 @@ public abstract class HazardousContainer : Container, IHazardNotifier
         double tareWeight, 
         double cargoWeight, 
         double depth, 
-        double maxPayload) : base(height, tareWeight, cargoWeight, depth, maxPayload)
+        double maxPayload,
+        char typeCharacter) : base(height, tareWeight, cargoWeight, depth, maxPayload, typeCharacter)
     {
     }
 

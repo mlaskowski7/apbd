@@ -11,7 +11,7 @@ public class RefrigeratedContainer : Container
         double depth, 
         double maxPayload, 
         string productType, 
-        double temperature) : base(height, tareWeight, cargoWeight, depth, maxPayload)
+        double temperature) : base(height, tareWeight, cargoWeight, depth, maxPayload, 'C')
     {
         this.ProductType = string.IsNullOrEmpty(productType) ? throw new ArgumentNullException(nameof(productType)) : productType;
         this.Temperature = temperature;
@@ -20,8 +20,6 @@ public class RefrigeratedContainer : Container
     public string ProductType { get; }
     
     public double Temperature { get; }
-    
-    protected override char GetTypeForSerialNumber() => 'C';
 
     public void LoadContainer(double massOfCargo, string productType, double minTemperature)
     {

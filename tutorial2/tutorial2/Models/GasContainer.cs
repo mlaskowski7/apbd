@@ -10,14 +10,12 @@ public class GasContainer : HazardousContainer
         double cargoWeight, 
         double depth, 
         double maxPayload, 
-        double pressure) : base(height, tareWeight, cargoWeight, depth, maxPayload)
+        double pressure) : base(height, tareWeight, cargoWeight, depth, maxPayload, 'G')
     {
         this.Pressure = pressure > 0.0 ? pressure : throw new ArgumentOutOfRangeException(nameof(pressure), pressure, "pressure must be greater than zero");
     }
 
     public double Pressure { get; }
-    
-    protected override char GetTypeForSerialNumber() => 'G';
     
     public override void EmptyTheCargo()
     {

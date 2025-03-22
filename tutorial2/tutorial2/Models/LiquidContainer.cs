@@ -10,11 +10,9 @@ public class LiquidContainer : HazardousContainer
         double tareWeight, 
         double cargoWeight, 
         double depth, 
-        double maxPayload) : base(height, tareWeight, cargoWeight, depth, maxPayload)
+        double maxPayload) : base(height, tareWeight, cargoWeight, depth, maxPayload, 'L')
     {
     }
-
-    protected override char GetTypeForSerialNumber() => 'L';
     
     public void LoadContainer(double massOfCargo, bool isHazardous)
     {
