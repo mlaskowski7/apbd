@@ -18,7 +18,7 @@ public class ShipTest
     }
 
     [Test]
-    public void TestLoadContainer()
+    public void LoadContainer_WhenContainerAdded_ShouldIncreaseContainerCount()
     {
         // arrange
         var container = new LiquidContainer(200, 100, 50, 250, 1500);
@@ -31,7 +31,7 @@ public class ShipTest
     }
 
     [Test]
-    public void TestLoadContainerOnOverload()
+    public void LoadContainer_WhenMaxContainersExceeded_ThrowsShipOverloadException()
     {
         // arrange
         var ship = new Ship( 30, 1, 100000);
@@ -46,7 +46,7 @@ public class ShipTest
     }
 
     [Test]
-    public void TestLoadContainerWeightOverload()
+    public void LoadContainer_WhenMaxWeightExceeded_ThrowsShipOverloadException()
     {
         // arrange
         var container1 = new LiquidContainer(200, 100, 50, 250, 1000);
@@ -61,7 +61,7 @@ public class ShipTest
     }
 
     [Test]
-    public void TestRemoveContainer()
+    public void RemoveContainer_WhenContainerExists_ShouldRemoveContainer()
     {
         // arrange
         var container = new LiquidContainer(200, 100, 50, 250, 1500);
@@ -75,14 +75,14 @@ public class ShipTest
     }
 
     [Test]
-    public void TestRemoveContainerOnNotFound()
+    public void RemoveContainer_WhenContainerNotFound_ThrowsInvalidOperationException()
     {
         // assert
         Assert.Throws<InvalidOperationException>(() => testShip.RemoveContainer(new LiquidContainer(200, 100, 50, 250, 1500)));
     }
 
     [Test]
-    public void TestReplaceContainer()
+    public void ReplaceContainerBySerialNumber_WhenContainerExists_ShouldReplaceContainer()
     {
         // arrange
         var container = new LiquidContainer(200, 100, 50, 250, 1500);
@@ -101,14 +101,14 @@ public class ShipTest
     }
 
     [Test]
-    public void TestReplaceContainerOnNotFound()
+    public void ReplaceContainerBySerialNumber_WhenContainerNotFound_ThrowsInvalidOperationException()
     {
         // assert
         Assert.Throws<InvalidOperationException>(() => testShip.ReplaceContainerBySerialNumber("dsadasdas", new LiquidContainer(250, 150, 75, 300, 2000)));
     }
 
     [Test]
-    public void TestTransferContainer()
+    public void TransferContainerToAnotherShip_WhenContainerExists_ShouldTransferContainer()
     {
         // arrange
         var container = new LiquidContainer(200, 100, 50, 250, 1500);
@@ -127,7 +127,7 @@ public class ShipTest
     }
 
     [Test]
-    public void TestTransferContainerOnNotFound()
+    public void TransferContainerToAnotherShip_WhenContainerNotFound_ThrowsInvalidOperationException()
     {
         // arrange
         var container = new LiquidContainer(200, 100, 50, 250, 1500);

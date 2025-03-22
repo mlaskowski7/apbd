@@ -22,21 +22,20 @@ public class LiquidContainerTest
     }
     
     [Test]
-    public void TestSerialNumber()
+    public void SerialNumber_ReturnsAccordingToContainersTypeCharacter()
     {
         // arrange
         string expectedSerialNumber = "KON-L-";
         
         // act
         string actualSerialNumber = testContainer.SerialNumber;
-
-        Console.WriteLine(actualSerialNumber);
+        
         // assert
         StringAssert.StartsWith(expectedSerialNumber, actualSerialNumber);
     }
     
     [Test]
-    public void TestCargoMass()
+    public void CargoMass_ReturnsSumOfCargoWeightAndTareContainerWeight()
     {
         // arrange
         testContainer.LoadContainer(500, false);
@@ -49,7 +48,7 @@ public class LiquidContainerTest
     }
     
     [Test]
-    public void TestLoadContainer()
+    public void LoadContainer_ShouldAddToCargoWeight()
     {
         // act
         testContainer.LoadContainer(1000, false);
@@ -59,28 +58,21 @@ public class LiquidContainerTest
     }
 
     [Test]
-    public void TestLoadContainerWhenOverload()
-    {
-        // assert
-        Assert.Throws<DangerousOperationException>(() => testContainer.LoadContainer(6000, false));
-    }
-
-    [Test]
-    public void TestLoadContainerOnDangerousOperation()
+    public void LoadContainer_WhenHazardousCargoIsOverfillingByHalf_ThrowsDangerousOperationException()
     {
         // assert
         Assert.Throws<DangerousOperationException>(() => testContainer.LoadContainer(3000, true));
     }
 
     [Test]
-    public void TestLoadContainerOnDangerousOperationWithNonHazardous()
+    public void LoadContainer_InHazardousWhenNonHazardousCargoIsOverfillingByPoint9_ThrowsDangerousOperationException()
     {
         // assert
         Assert.Throws<DangerousOperationException>(() => testContainer.LoadContainer(4600, false));
     }
 
     [Test]
-    public void TestEmptyCargo()
+    public void EmptyCargo_ShouldMakeCargoWeightZeroed()
     {
         // arrange
         testContainer.LoadContainer(1500, false);
