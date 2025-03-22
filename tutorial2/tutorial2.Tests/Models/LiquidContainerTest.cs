@@ -30,6 +30,7 @@ public class LiquidContainerTest
         // act
         string actualSerialNumber = testContainer.SerialNumber;
 
+        Console.WriteLine(actualSerialNumber);
         // assert
         StringAssert.StartsWith(expectedSerialNumber, actualSerialNumber);
     }
@@ -61,7 +62,7 @@ public class LiquidContainerTest
     public void TestLoadContainerWhenOverload()
     {
         // assert
-        Assert.Throws<OverfillException>(() => testContainer.LoadContainer(6000, false));
+        Assert.Throws<DangerousOperationException>(() => testContainer.LoadContainer(6000, false));
     }
 
     [Test]

@@ -9,7 +9,6 @@ public abstract class Container
     private static readonly string SerialNumberSeparator = "-";
     
     private static int _uniqueCounter;
-    private readonly int _uniqueNumber;
 
     protected Container(
         double height, 
@@ -18,14 +17,13 @@ public abstract class Container
         double depth, 
         double maxPayload)
     {
-        this._uniqueNumber = _uniqueCounter;
-        _uniqueCounter++;
-        
         this.Height = height > 0 ? height : throw new ArgumentOutOfRangeException(nameof(height));
         this.TareWeight = tareWeight > 0 ? tareWeight : throw new ArgumentOutOfRangeException(nameof(tareWeight));
         this.CargoWeight = cargoWeight <= maxPayload ? cargoWeight : throw new ArgumentOutOfRangeException(nameof(cargoWeight));
         this.Depth = depth > 0 ? depth : throw new ArgumentOutOfRangeException(nameof(depth));
         this.MaxPayload = maxPayload > 0 ? maxPayload : throw new ArgumentOutOfRangeException(nameof(maxPayload));
+        
+        this.SerialNumber = this.GenerateSerialNumber();
     }
 
     /// <summary>
@@ -59,17 +57,7 @@ public abstract class Container
     public double MaxPayload { get; }
 
     public string SerialNumber
-    {
-        get
-        {
-            var sb = new StringBuilder(SerialNumberPrefix);
-            sb.Append(SerialNumberSeparator);
-            sb.Append(this.GetTypeForSerialNumber());
-            sb.Append(SerialNumberSeparator);
-            sb.Append(this._uniqueNumber);
-            return sb.ToString();
-        }
-    }
+    { get; private set; }
 
     protected abstract char GetTypeForSerialNumber();
 
@@ -106,5 +94,14 @@ public abstract class Container
 
         return sb.ToString();
     }
-    
+
+    private string GenerateSerialNumber()
+    {
+        var sb = new StringBuilder(SerialNumberPrefix);
+        sb.Append(SerialNumberSeparator);
+        sb.Append(GetTypeForSerialNumber());
+        sb.Append(SerialNumberSeparator);
+        sb.Append(_uniqueCounter++);
+        return sb.ToString();
+    }
 }

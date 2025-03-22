@@ -11,7 +11,7 @@ public class Ship
         int maxSpeed, 
         int maxContainers, 
         double maxWeight, 
-        IList<Container>? containers = null
+        List<Container>? containers = null
     )
     {
         this.Containers = containers ?? new List<Container>();
@@ -20,7 +20,7 @@ public class Ship
         this.MaxWeight = maxWeight;
     }
 
-    public IList<Container> Containers { get; private set; }
+    public List<Container> Containers { get; private set; }
     
     public int MaxSpeed { get; }
     
@@ -41,8 +41,8 @@ public class Ship
             throw new ShipOverloadException(
                 $"Cannot add another container as the maximum ship weight will be exceeded");
         }
-        
-        Containers = Containers.Append(container).ToList();
+
+        Containers.Add(container);
     }
     
     public void LoadContainer(IList<Container> containers)
@@ -58,8 +58,8 @@ public class Ship
             throw new ShipOverloadException(
                 $"Cannot add another container as the maximum ship weight will be exceeded");
         }
-        
-        this.Containers = this.Containers.Concat(containers).ToList();
+
+        Containers.AddRange(containers);
     }
 
     public void RemoveContainer(Container container)
@@ -69,7 +69,8 @@ public class Ship
             throw new InvalidOperationException("The container to remove was not found on the ship.");
         }
     
-        this.Containers = this.Containers.Where(c => c != container).ToList();
+        this.Containers = this.Containers.Where(c => c != container)
+                                         .ToList();
     }
 
     public void ReplaceContainerBySerialNumber(string serialNumber, Container container)
@@ -80,8 +81,8 @@ public class Ship
         } 
         
         this.Containers = Containers.Where(c => c.SerialNumber != serialNumber)
-                                    .Append(container)
                                     .ToList();
+        this.Containers.Add(container);
     }
 
     public void TransferContainerToAnotherShip(Container container, Ship ship)
