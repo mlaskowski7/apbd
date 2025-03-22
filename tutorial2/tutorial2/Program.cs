@@ -6,6 +6,6 @@ Container liquidContainer = new LiquidContainer(
     cargoWeight: 0, 
     depth: 500, 
     maxPayload: 5000);
-var ship = new Ship(null, 30, 5, 100000);
+var ship = new Ship(30, 5, 100000);
 ship.LoadContainer(liquidContainer);
 Console.WriteLine(ship);

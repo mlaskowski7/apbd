@@ -23,7 +23,7 @@ public abstract class Container
         
         this.Height = height > 0 ? height : throw new ArgumentOutOfRangeException(nameof(height));
         this.TareWeight = tareWeight > 0 ? tareWeight : throw new ArgumentOutOfRangeException(nameof(tareWeight));
-        this.CargoWeight = cargoWeight;
+        this.CargoWeight = cargoWeight <= maxPayload ? cargoWeight : throw new ArgumentOutOfRangeException(nameof(cargoWeight));
         this.Depth = depth > 0 ? depth : throw new ArgumentOutOfRangeException(nameof(depth));
         this.MaxPayload = maxPayload > 0 ? maxPayload : throw new ArgumentOutOfRangeException(nameof(maxPayload));
     }
@@ -78,7 +78,7 @@ public abstract class Container
         this.CargoWeight = 0;
     }
 
-    public void LoadContainer(double massOfCargo)
+    protected void LoadContainer(double massOfCargo)
     {
         if (massOfCargo <= 0)
         {

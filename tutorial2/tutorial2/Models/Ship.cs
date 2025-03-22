@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Text;
 using tutorial2.Exceptions;
 
@@ -6,7 +7,12 @@ namespace tutorial2.Models;
 public class Ship
 {
     
-    public Ship(IEnumerable<Container>? containers, int maxSpeed, int maxContainers, double maxWeight)
+    public Ship(
+        int maxSpeed, 
+        int maxContainers, 
+        double maxWeight, 
+        IList<Container>? containers = null
+    )
     {
         this.Containers = containers ?? new List<Container>();
         this.MaxSpeed = maxSpeed;
@@ -14,7 +20,7 @@ public class Ship
         this.MaxWeight = maxWeight;
     }
 
-    public IEnumerable<Container> Containers { get; private set; }
+    public IList<Container> Containers { get; private set; }
     
     public int MaxSpeed { get; }
     
@@ -30,16 +36,16 @@ public class Ship
                 $"Cannot add another container as the maximum number of containers will be exceeded - Max = {MaxContainers}, already holding {Containers.Count()} containers");
         }
 
-        if (this.GetAllContainersWeight() + container.CargoMass > MaxWeight * 1000)
+        if (GetAllContainersWeight() + container.CargoMass > MaxWeight * 1000)
         {
             throw new ShipOverloadException(
                 $"Cannot add another container as the maximum ship weight will be exceeded");
         }
         
-        this.Containers = this.Containers.Append(container);
+        Containers = Containers.Append(container).ToList();
     }
     
-    public void LoadContainer(IEnumerable<Container> containers)
+    public void LoadContainer(IList<Container> containers)
     {
         if (Containers.Count() + containers.Count() > MaxContainers)
         {
@@ -53,7 +59,7 @@ public class Ship
                 $"Cannot add another container as the maximum ship weight will be exceeded");
         }
         
-        this.Containers = this.Containers.Concat(containers);
+        this.Containers = this.Containers.Concat(containers).ToList();
     }
 
     public void RemoveContainer(Container container)
@@ -63,7 +69,7 @@ public class Ship
             throw new InvalidOperationException("The container to remove was not found on the ship.");
         }
     
-        this.Containers = this.Containers.Where(c => c != container);
+        this.Containers = this.Containers.Where(c => c != container).ToList();
     }
 
     public void ReplaceContainerBySerialNumber(string serialNumber, Container container)
@@ -74,7 +80,8 @@ public class Ship
         } 
         
         this.Containers = Containers.Where(c => c.SerialNumber != serialNumber)
-                                    .Append(container);
+                                    .Append(container)
+                                    .ToList();
     }
 
     public void TransferContainerToAnotherShip(Container container, Ship ship)

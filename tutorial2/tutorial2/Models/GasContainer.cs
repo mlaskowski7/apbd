@@ -28,4 +28,13 @@ public class GasContainer : HazardousContainer
     {
         return base.ToString() + $"\nPressure={this.Pressure}";
     }
+
+    /// <summary>
+    /// proxy method for loading the container.
+    /// </summary>
+    /// <param name="massOfCargo">massOfCargo.</param>
+    public new void LoadContainer(double massOfCargo)
+    {
+        base.LoadContainer(massOfCargo);
+    }
 }

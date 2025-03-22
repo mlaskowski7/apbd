@@ -38,7 +38,7 @@ public class LiquidContainerTest
     public void TestCargoMass()
     {
         // arrange
-        testContainer.LoadContainer(500);
+        testContainer.LoadContainer(500, false);
 
         // act
         double cargoMass = testContainer.CargoMass;
@@ -51,7 +51,7 @@ public class LiquidContainerTest
     public void TestLoadContainer()
     {
         // act
-        testContainer.LoadContainer(1000);
+        testContainer.LoadContainer(1000, false);
 
         // assert
         Assert.That(testContainer.CargoWeight, Is.EqualTo(1000));
@@ -61,7 +61,7 @@ public class LiquidContainerTest
     public void TestLoadContainerWhenOverload()
     {
         // assert
-        Assert.Throws<OverfillException>(() => testContainer.LoadContainer(6000));
+        Assert.Throws<OverfillException>(() => testContainer.LoadContainer(6000, false));
     }
 
     [Test]
@@ -82,7 +82,7 @@ public class LiquidContainerTest
     public void TestEmptyCargo()
     {
         // arrange
-        testContainer.LoadContainer(1500);
+        testContainer.LoadContainer(1500, false);
 
         // act
         testContainer.EmptyTheCargo();

@@ -14,7 +14,7 @@ public class ShipTest
     [SetUp]
     public void SetUp()
     {
-        testShip = new Ship(null, 30, 5, 100000);
+        testShip = new Ship( 30, 5, 100000);
     }
 
     [Test]
@@ -34,7 +34,7 @@ public class ShipTest
     public void TestLoadContainerOnOverload()
     {
         // arrange
-        var ship = new Ship(null, 30, 1, 100000);
+        var ship = new Ship( 30, 1, 100000);
         var container1 = new LiquidContainer(200, 100, 50, 250, 1500);
         var container2 = new LiquidContainer(200, 100, 50, 250, 1500);
 
@@ -51,7 +51,7 @@ public class ShipTest
         // arrange
         var container1 = new LiquidContainer(200, 100, 50, 250, 1000);
         var container2 = new LiquidContainer(200, 100, 50, 250, 2000);
-        var ship = new Ship(new List<Container>(), 30, 5, 0.2);
+        var ship = new Ship(30, 5, 0.2);
 
         // act
         ship.LoadContainer(container1);
@@ -112,7 +112,7 @@ public class ShipTest
     {
         // arrange
         var container = new LiquidContainer(200, 100, 50, 250, 1500);
-        var anotherShip = new Ship(new List<Container>(), 30, 5, 100000);
+        var anotherShip = new Ship(30, 5, 100000);
         testShip.LoadContainer(container);
 
         // act
@@ -131,7 +131,7 @@ public class ShipTest
     {
         // arrange
         var container = new LiquidContainer(200, 100, 50, 250, 1500);
-        var anotherShip = new Ship(new List<Container>(), 30, 5, 100000);
+        var anotherShip = new Ship(30, 5, 100000);
 
         // assert
         Assert.Throws<InvalidOperationException>(() => testShip.TransferContainerToAnotherShip(container, anotherShip));
