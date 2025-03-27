@@ -4,6 +4,20 @@ namespace LegacyApp
 {
     public class UserService
     {
+        private readonly DateTime _dateTime;
+        
+        private readonly IClientRepository _clientRepository;
+
+        public UserService() : this(new DateTime(), new ClientRepository())
+        {
+        }
+
+        public UserService(DateTime dateTime, IClientRepository clientRepository)
+        {
+            _dateTime = dateTime;
+            _clientRepository = clientRepository;
+        }
+
         public bool AddUser(string firstName, string lastName, string email, DateTime dateOfBirth, int clientId)
         {
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
