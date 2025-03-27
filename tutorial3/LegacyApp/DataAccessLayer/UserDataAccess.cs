@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
+using LegacyApp.Models;
 
-namespace LegacyApp
+namespace LegacyApp.DataAccessLayer
 {
     /*
      * DO NOT CHANGE THIS FILE AT ALL
