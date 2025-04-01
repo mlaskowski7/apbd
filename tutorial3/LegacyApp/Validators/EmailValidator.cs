@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LegacyApp.Validators
+﻿namespace LegacyApp.Validators
 {
-    internal class EmailValidator : IUserDetailsValidator
+    public class EmailValidator : IUserDetailsValidator
     {
         public bool ValidateUserDetails(UserDetails userDetails)
         {

@@ -2,6 +2,7 @@ using LegacyApp;
 using LegacyApp.DataAccessLayer;
 using LegacyApp.DateTimeProviders;
 using LegacyApp.Models;
+using LegacyApp.Validators;
 using Moq;
 
 namespace TestProject1;
@@ -16,16 +17,21 @@ public class UserServiceTest
     
     private readonly Mock<IUserCreditService> _userCreditServiceMock;
     
+    private readonly Mock<IUserRepository> _userRepositoryMock;
+    
     public UserServiceTest()
     {
         _clientRepositoryMock = new Mock<IClientRepository>();
         _dateTimeProviderMock = new Mock<IDateTimeProvider>();
         _userCreditServiceMock = new Mock<IUserCreditService>();
+        _userRepositoryMock = new Mock<IUserRepository>();
+        
         _userService = new UserService
         (
-            _dateTimeProviderMock.Object, 
             _clientRepositoryMock.Object, 
-            _userCreditServiceMock.Object
+            _userCreditServiceMock.Object,
+            new UserValidator([new EmailValidator(), new NameValidator(), new AgeValidator(_dateTimeProviderMock.Object)]),
+            _userRepositoryMock.Object
         );
     }
 
@@ -101,6 +107,12 @@ public class UserServiceTest
                              .Returns(client);
         _userCreditServiceMock.Setup(service => service.GetCreditLimit(lastName, dateOfBirth))
                               .Returns(400);
+        _userCreditServiceMock.Setup(service => service.UpdateCreditLimit(It.IsAny<User>(), It.IsAny<Client>()))
+                              .Callback<User, Client>((user, _) =>
+                              {
+                                  user.HasCreditLimit = true;
+                                  user.CreditLimit = 400;
+                              });
 
         // act
         var result =  _userService.AddUser(firstName, lastName, email, dateOfBirth, clientId);

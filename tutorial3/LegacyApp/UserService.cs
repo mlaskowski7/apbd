@@ -49,7 +49,7 @@ namespace LegacyApp
 
             var user = CreateUser(userDetails);
             _userCreditService.UpdateCreditLimit(user, user.Client);
-            _userValidator.ValidateUserCreditLimit(user);
+             if (!_userValidator.ValidateUserCreditLimit(user)) return false;
             _userRepository.AddUser(user);
             return true;
         }
