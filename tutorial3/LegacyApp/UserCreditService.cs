@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LegacyApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -37,6 +38,24 @@ namespace LegacyApp
                 return _database[lastName];
 
             throw new ArgumentException($"Client {lastName} does not exist");
+        }
+
+        public void UpdateCreditLimit(User user, Client client)
+        {
+            var clientType = user.Client.Type;
+
+            if (clientType == "VeryImportantClient")
+            {
+                user.HasCreditLimit = false;
+            }
+            else
+            {
+                var creditLimit = GetCreditLimit(user.LastName, user.DateOfBirth);
+                user.HasCreditLimit = true;
+                user.CreditLimit = clientType == "ImportantClient" ?
+                                                    creditLimit * 2 :
+                                                    creditLimit;
+            }
         }
     }
 }

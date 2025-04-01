@@ -1,135 +1,71 @@
 ﻿using System;
 using LegacyApp.DataAccessLayer;
 using LegacyApp.DateTimeProviders;
-using LegacyApp.Exceptions;
 using LegacyApp.Models;
+using LegacyApp.Validators;
 
 
 namespace LegacyApp
 {
     public class UserService
     {
-        private readonly IDateTimeProvider _dateTimeProvider;
         
         private readonly IClientRepository _clientRepository;
         
         private readonly IUserCreditService _userCreditService;
 
+        private readonly IUserValidator _userValidator;
+
+        private readonly IUserRepository _userRepository;
+
         public UserService() 
-            : this(new StdDateTimeProvider(), new ClientRepository(), new UserCreditService())
+            : this(
+                  new ClientRepository(), 
+                  new UserCreditService(), 
+                  new UserValidator([new EmailValidator(), new NameValidator(), new AgeValidator(new StdDateTimeProvider())]),
+                  new UserRepository())
         {
         }
 
-        public UserService(IDateTimeProvider dateTimeProvider, IClientRepository clientRepository, IUserCreditService userCreditService)
+        public UserService(
+            IClientRepository clientRepository, 
+            IUserCreditService userCreditService, 
+            IUserValidator userValidator, 
+            IUserRepository userRepository)
         {
-            _dateTimeProvider = dateTimeProvider;
+            _userValidator = userValidator;
             _clientRepository = clientRepository;
             _userCreditService = userCreditService;
+            _userRepository = userRepository;
         }
 
         public bool AddUser(string firstName, string lastName, string email, DateTime dateOfBirth, int clientId)
         {
-            User user;
-            try
-            {
-                user = TryCreateUser(firstName, lastName, email, dateOfBirth, clientId);
-            }
-            catch (UserValidationException userValidationException)
-            {
-                Console.WriteLine("User details validation due to the following reason - " + userValidationException.Message);
-                return false;
-            }
-            
-            UpdateCreditLimitBasedOnUsersClientType(user);
-            return AddUserIfEnoughCreditLimit(user);
-        }
-
-        private bool AddUserIfEnoughCreditLimit(User user)
-        {
-            if (user.HasCreditLimit && user.CreditLimit < 500)
+            var userDetails = new UserDetails(firstName, lastName, email, dateOfBirth, clientId);
+            if (!_userValidator.ValidateUserDetails(userDetails))
             {
                 return false;
             }
 
-            UserDataAccess.AddUser(user);
+            var user = CreateUser(userDetails);
+            _userCreditService.UpdateCreditLimit(user, user.Client);
+            _userValidator.ValidateUserCreditLimit(user);
+            _userRepository.AddUser(user);
             return true;
         }
 
-        private void UpdateCreditLimitBasedOnUsersClientType(User user)
+        private User CreateUser(UserDetails userDetails)
         {
-            var clientType = user.Client.Type;
-
-            if (clientType == "VeryImportantClient")
-            {
-                user.HasCreditLimit = false;
-            }
-            else
-            {
-                var creditLimit = GetCreditLimitForUser(user);
-                user.HasCreditLimit = true;
-                user.CreditLimit = clientType == "ImportantClient" ? 
-                                                    creditLimit * 2 : 
-                                                    creditLimit;
-            }
-        }
-
-        private int GetCreditLimitForUser(User user)
-        {
-            try
-            {
-                var creditLimit = _userCreditService.GetCreditLimit(user.LastName, user.DateOfBirth);
-                return creditLimit;
-            }
-            catch (ArgumentException argumentException)
-            {
-                throw new UserCreditNotFoundException("Could not find user's credit limit by his last name", argumentException);
-            }
-        }
-
-        private User TryCreateUser(string firstName, string lastName, string email, DateTime dateOfBirth, int clientId)
-        {
-            ValidateUserDetails(firstName, lastName, email, dateOfBirth);
-            
-            Client client;
-            try
-            {
-                client = _clientRepository.GetById(clientId);
-            }
-            catch (ArgumentException)
-            {
-                throw new UserValidationException($"Client with provided id({clientId}) is not present in the database.");
-            }
+            var client = _clientRepository.GetById(userDetails.ClientId);
             
             return new User()
             {
                 Client = client,
-                DateOfBirth = dateOfBirth,
-                EmailAddress = email,
-                FirstName = firstName,
-                LastName = lastName
+                DateOfBirth = userDetails.DateOfBirth,
+                EmailAddress = userDetails.Email,
+                FirstName = userDetails.FirstName,
+                LastName = userDetails.LastName
             };
-        }
-
-        private void ValidateUserDetails(string firstName, string lastName, string email, DateTime dateOfBirth)
-        {
-            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
-            {
-                throw new UserValidationException("Cannot create a user with empty first or/and last name.");
-            }
-
-            if (!email.Contains("@") && !email.Contains("."))
-            {
-                throw new UserValidationException($"Invalid email address was passed ({email}).");
-            }
-            
-            var now = _dateTimeProvider.Now;
-            int age = now.Year - dateOfBirth.Year;
-            if (now.Month < dateOfBirth.Month || (now.Month == dateOfBirth.Month && now.Day < dateOfBirth.Day)) age--;
-
-            if (age < 21)
-            {
-                throw new UserValidationException("Age of the user must be over 21.");
-            }
         }
     }
 }
