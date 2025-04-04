@@ -1,10 +1,11 @@
-﻿using System;
+﻿using LegacyApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace LegacyApp
 {
-    public class UserCreditService : IDisposable
+    public class UserCreditService : IUserCreditService
     {
         /// <summary>
         /// Simulating database
@@ -28,7 +29,7 @@ namespace LegacyApp
         /// This method is simulating contact with remote service which is used to get info about someone's credit limit
         /// </summary>
         /// <returns>Client's credit limit</returns>
-        internal int GetCreditLimit(string lastName, DateTime dateOfBirth)
+        public int GetCreditLimit(string lastName, DateTime dateOfBirth)
         {
             int randomWaitingTime = new Random().Next(3000);
             Thread.Sleep(randomWaitingTime);
@@ -37,6 +38,24 @@ namespace LegacyApp
                 return _database[lastName];
 
             throw new ArgumentException($"Client {lastName} does not exist");
+        }
+
+        public void UpdateCreditLimit(User user, Client client)
+        {
+            var clientType = user.Client.Type;
+
+            if (clientType == "VeryImportantClient")
+            {
+                user.HasCreditLimit = false;
+            }
+            else
+            {
+                var creditLimit = GetCreditLimit(user.LastName, user.DateOfBirth);
+                user.HasCreditLimit = true;
+                user.CreditLimit = clientType == "ImportantClient" ?
+                                                    creditLimit * 2 :
+                                                    creditLimit;
+            }
         }
     }
 }
