@@ -14,9 +14,10 @@ namespace VetClinicShelterApi.Services
 
         private readonly IAnimalRepository _animalRepository;
 
-        public AnimalService(IAnimalMapper animalMapper, IAnimalRepository animalRepository)
+        public AnimalService(IAnimalMapper animalMapper, IVisitMapper visitMapper, IAnimalRepository animalRepository)
         {
             _animalMapper = animalMapper;
+            _visitMapper = visitMapper;
             _animalRepository = animalRepository;
         }
 

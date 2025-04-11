@@ -33,7 +33,7 @@ public class AnimalsController(IAnimalService _animalService) : ControllerBase
         var createdAnimalResult = _animalService.CreateAnimal(animalBody);
         if (createdAnimalResult.IsOk)
         {
-            return CreatedAtAction(nameof(GetAnimalById), createdAnimalResult.Result);
+            return CreatedAtAction(nameof(GetAnimalById), new { id = createdAnimalResult.Result!.Id }, createdAnimalResult.Result);
         }
         
         return BadRequest(createdAnimalResult.ErrorMessage);
