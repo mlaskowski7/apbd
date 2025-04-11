@@ -34,12 +34,13 @@ namespace VetClinicShelterApi.Tests.Mappers
             };
 
             var result = _mapper.MapToModel(dto);
+            var animal = result.Result!;
 
             Assert.Multiple(() =>
             {
-                Assert.Equal(r, result.FurColor.R);
-                Assert.Equal(g, result.FurColor.G);
-                Assert.Equal(b, result.FurColor.B);
+                Assert.Equal(r, animal.FurColor.R);
+                Assert.Equal(g, animal.FurColor.G);
+                Assert.Equal(b, animal.FurColor.B);
             });
         }
     }

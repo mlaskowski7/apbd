@@ -2,6 +2,7 @@
 using VetClinicShelterApi.Dtos.Request;
 using VetClinicShelterApi.Dtos.Response;
 using VetClinicShelterApi.Models;
+using VetClinicShelterApi.Utils;
 
 namespace VetClinicShelterApi.Mappers
 {
@@ -18,16 +19,38 @@ namespace VetClinicShelterApi.Mappers
                 colorAsHex);
         }
 
-        public Animal MapToModel(AnimalRequestDto requestDto)
+        public ResultWrapper<Animal> MapToModel(AnimalRequestDto requestDto)
         {
-            var parsedColor = ColorTranslator.FromHtml(requestDto.FurColor);
-            return new()
+            var colorParseResult = parseColor(requestDto.FurColor);
+            if (!colorParseResult.IsOk)
+            {
+                return ResultWrapper<Animal>.FromErr(colorParseResult);
+            }
+            
+            var animal = new Animal()
             {
                 Name = requestDto.Name,
                 Weight = requestDto.Weight,
                 Category = requestDto.Category,
-                FurColor = parsedColor
+                FurColor = colorParseResult.Result
             };
+            return ResultWrapper<Animal>.Ok(animal);
+        }
+
+        private ResultWrapper<Color> parseColor(string colorAsHexStr)
+        {
+            try
+            {
+                var parsedColor = ColorTranslator.FromHtml(colorAsHexStr);
+
+                return parsedColor.IsEmpty ? 
+                    ResultWrapper<Color>.Err("Could not parse the passed color") : 
+                    ResultWrapper<Color>.Ok(parsedColor);
+            }
+            catch (ArgumentException ex)
+            {
+                return ResultWrapper<Color>.Err("Could not parse the passed color -> " + ex.Message);
+            }
         }
     }
 }

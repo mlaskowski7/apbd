@@ -11,6 +11,7 @@ using VetClinicShelterApi.Mappers;
 using VetClinicShelterApi.Models;
 using VetClinicShelterApi.Repositories;
 using VetClinicShelterApi.Services;
+using VetClinicShelterApi.Utils;
 
 namespace VetClinicShelterApi.Tests.Services
 {
@@ -38,17 +39,18 @@ namespace VetClinicShelterApi.Tests.Services
             var response = GetSampleAnimalResponse();
 
             _mapperMock.Setup(m => m.MapToModel(request))
-                       .Returns(model);
+                       .Returns(ResultWrapper<Animal>.Ok(model));
             _mapperMock.Setup(m => m.MapToContract(model))
                        .Returns(response);
 
             // act
             var result = _animalService.CreateAnimal(request);
+            var animal = result.Result!;
 
             // assert
             Assert.Multiple(() =>
             {
-                Assert.Equal("test1", result.Name);
+                Assert.Equal("test1", animal.Name);
                 _repositoryMock.Verify(r => r.SaveAnimal(model), Times.Once);
             });
         }
@@ -162,7 +164,7 @@ namespace VetClinicShelterApi.Tests.Services
             _repositoryMock.Setup(r => r.DeleteAnimalById(id))
                            .Returns(true);
             _mapperMock.Setup(m => m.MapToModel(request))
-                       .Returns(model);
+                       .Returns(ResultWrapper<Animal>.Ok(model));
             _mapperMock.Setup(m => m.MapToContract(It.Is<Animal>(a => a.Id == id)))
                        .Returns(dto);
 

@@ -10,6 +10,8 @@ namespace VetClinicShelterApi.Services
     {
         private readonly IAnimalMapper _animalMapper;
 
+        private readonly IVisitMapper _visitMapper;
+
         private readonly IAnimalRepository _animalRepository;
 
         public AnimalService(IAnimalMapper animalMapper, IAnimalRepository animalRepository)
@@ -18,11 +20,29 @@ namespace VetClinicShelterApi.Services
             _animalRepository = animalRepository;
         }
 
-        public AnimalResponseDto CreateAnimal(AnimalRequestDto animal)
+        public ResultWrapper<AnimalResponseDto> CreateAnimal(AnimalRequestDto animal)
         {
-            var animalModel = _animalMapper.MapToModel(animal);
+            var animalMapResult = _animalMapper.MapToModel(animal);
+            if (!animalMapResult.IsOk)  
+            {
+                return ResultWrapper<AnimalResponseDto>.FromErr(animalMapResult);
+            }
+            var animalModel = animalMapResult.Result!;
             _animalRepository.SaveAnimal(animalModel);
-            return _animalMapper.MapToContract(animalModel);
+            return ResultWrapper<AnimalResponseDto>.Ok(_animalMapper.MapToContract(animalModel));
+        }
+
+        public ResultWrapper<VisitResponseDto> CreateVisitForAnimal(VisitRequestDto visit)
+        {
+            var visitMapResult = _visitMapper.MapToModel(visit);
+            if (!visitMapResult.IsOk)
+            {
+                return ResultWrapper<VisitResponseDto>.FromErr(visitMapResult);
+            }
+
+            var visitModel = visitMapResult.Result!;
+            visitModel.Animal.Visits.Add(visitModel);
+            return ResultWrapper<VisitResponseDto>.Ok(_visitMapper.MapToContract(visitModel));
         }
 
         public bool DeleteAnimalById(Guid id)
@@ -35,6 +55,20 @@ namespace VetClinicShelterApi.Services
             var animals = _animalRepository.FindAllAnimals();
             return animals.Select(animal => _animalMapper.MapToContract(animal))
                           .ToList();
+        }
+
+        public ResultWrapper<ICollection<VisitResponseDto>> GetAllVisitsByAnimalId(Guid animalId)
+        {
+            var animal = _animalRepository.FindAnimalById(animalId);
+            if (animal == null)
+            {
+                return ResultWrapper<ICollection<VisitResponseDto>>.Err($"Animal with id = {animalId} was not found");
+            }
+
+            var visitsResponse = animal.Visits
+                                       .Select(v => _visitMapper.MapToContract(v))
+                                       .ToList();
+            return ResultWrapper<ICollection<VisitResponseDto>>.Ok(visitsResponse);
         }
 
         public ResultWrapper<AnimalResponseDto> GetAnimalById(Guid id)
@@ -56,7 +90,12 @@ namespace VetClinicShelterApi.Services
                 return ResultWrapper<AnimalResponseDto>.Err($"Animal with id = {id} cant be updated as it was not found");
             }
 
-            var animalModel = _animalMapper.MapToModel(animal);
+            var animalMapResult = _animalMapper.MapToModel(animal);
+            if (!animalMapResult.IsOk)
+            {
+                return ResultWrapper<AnimalResponseDto>.FromErr(animalMapResult);
+            }
+            var animalModel = animalMapResult.Result!;
             animalModel.Id = id;
             _animalRepository.SaveAnimal(animalModel);
             var response = _animalMapper.MapToContract(animalModel);

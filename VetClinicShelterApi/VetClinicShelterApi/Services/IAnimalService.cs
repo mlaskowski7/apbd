@@ -10,9 +10,13 @@ public interface IAnimalService
     
     ResultWrapper<AnimalResponseDto> GetAnimalById(Guid id);
     
-    AnimalResponseDto CreateAnimal(AnimalRequestDto animal);
+    ResultWrapper<AnimalResponseDto> CreateAnimal(AnimalRequestDto animal);
     
     ResultWrapper<AnimalResponseDto> UpdateAnimal(Guid id, AnimalRequestDto animal);
     
     bool DeleteAnimalById(Guid id);
+
+    ResultWrapper<VisitResponseDto> CreateVisitForAnimal(VisitRequestDto visit);
+
+    ResultWrapper<ICollection<VisitResponseDto>> GetAllVisitsByAnimalId(Guid animalId);
 }

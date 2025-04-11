@@ -91,7 +91,7 @@ public class AnimalsControllerTest
         var response = GetSampleAnimalResponseDto();
         
         _animalServiceMock.Setup(s => s.CreateAnimal(request))
-                          .Returns(response);
+                          .Returns(ResultWrapper<AnimalResponseDto>.Ok(response));
         
         // act
         var result = _animalsController.CreateAnimal(request);

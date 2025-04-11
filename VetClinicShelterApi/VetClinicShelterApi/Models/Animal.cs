@@ -27,4 +27,6 @@ public class Animal
     public AnimalCategory Category { get; set; }
     
     public Color FurColor { get; set; }
+
+    public ICollection<Visit> Visits { get; set; }
 }

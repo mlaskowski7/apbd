@@ -1,4 +1,6 @@
-﻿namespace VetClinicShelterApi.Mappers
+﻿using VetClinicShelterApi.Utils;
+
+namespace VetClinicShelterApi.Mappers
 {
     /// <summary>
     /// interface for mappers from models to contract objects.
@@ -10,6 +12,6 @@
     {
         R MapToContract(M model);
 
-        M MapToModel(T requestDto);
+        ResultWrapper<M> MapToModel(T requestDto);
     }
 }
