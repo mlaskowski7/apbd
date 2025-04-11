@@ -2,13 +2,18 @@ namespace VetClinicShelterApi.Utils;
 
 public class ResultWrapper<T>
 {
-    public ResultWrapper(T result)
+
+    public static ResultWrapper<T> Ok(T result) => new (result);
+    
+    public static ResultWrapper<T> Err(string message) => new (message);
+        
+    private ResultWrapper(T result)
     {
         IsOk = true;
         Result = result;
     }
 
-    public ResultWrapper(string errorMessage)
+    private ResultWrapper(string errorMessage)
     {
         IsOk = false;
         ErrorMessage = errorMessage;
