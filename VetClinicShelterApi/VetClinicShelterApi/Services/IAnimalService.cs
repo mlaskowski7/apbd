@@ -8,11 +8,11 @@ public interface IAnimalService
 {
     ICollection<AnimalResponseDto> GetAllAnimals();
     
-    ResultWrapper<AnimalResponseDto> GetAnimalById(int id);
+    ResultWrapper<AnimalResponseDto> GetAnimalById(Guid id);
     
     AnimalResponseDto CreateAnimal(AnimalRequestDto animal);
     
-    ResultWrapper<AnimalResponseDto> UpdateAnimal(int id, AnimalRequestDto animal);
+    ResultWrapper<AnimalResponseDto> UpdateAnimal(Guid id, AnimalRequestDto animal);
     
-    bool DeleteAnimalById(int id);
+    bool DeleteAnimalById(Guid id);
 }

@@ -1,0 +1,13 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestProjectMapping/=B945A189_002DA248_002D4EF6_002D8174_002DC12E21A0DAA7/@EntryIndexedValue">473C4C47-82BC-4899-A0BC-C64D8BCE1EBA</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestTemplateMapping/=xUnit/@EntryIndexedValue">33ff99d8-b1ad-4ed5-a4fd-376b97c2c841</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2fb04858_002Dc647_002D4f63_002Db747_002D81ec522492e1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetAllAnimals_WhenSuccessfulServiceCall_ShouldReturnAllAnimals" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::473C4C47-82BC-4899-A0BC-C64D8BCE1EBA::net8.0::VetClinicShelterApi.Tests.Controllers.AnimalsControllerTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5210167a_002D6e6a_002D417a_002D9a54_002D0bb38d0dde79/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetAllAnimals_WhenSuccessfulServiceCall_ShouldReturnAllAnimals #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::473C4C47-82BC-4899-A0BC-C64D8BCE1EBA::net8.0::VetClinicShelterApi.Tests.Controllers.AnimalsControllerTest.GetAllAnimals_WhenSuccessfulServiceCall_ShouldReturnAllAnimals&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

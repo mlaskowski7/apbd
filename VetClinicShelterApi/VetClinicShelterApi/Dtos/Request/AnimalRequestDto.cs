@@ -9,7 +9,8 @@ public class AnimalRequestDto()
     public string Name { get; set; }
     
     [Required]
-    public decimal Weight { get; set; }
+    [Range(0.01, double.MaxValue, ErrorMessage = "Weight must be greater than 0.")]
+    public double Weight { get; set; }
     
     [Required]
     public AnimalCategory Category { get; set; }

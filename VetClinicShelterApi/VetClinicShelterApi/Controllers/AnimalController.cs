@@ -15,8 +15,8 @@ public class AnimalsController(IAnimalService animalService) : ControllerBase
         return Ok(animalService.GetAllAnimals());
     }
 
-    [HttpGet("{id:int}")]
-    public ActionResult<AnimalResponseDto> GetAnimalById([FromRoute] int id)
+    [HttpGet("{id:guid}")]
+    public ActionResult<AnimalResponseDto> GetAnimalById([FromRoute] Guid id)
     {
         var animalResult = animalService.GetAnimalById(id);
         if (animalResult.IsOk)
@@ -34,8 +34,8 @@ public class AnimalsController(IAnimalService animalService) : ControllerBase
         return Ok(createdAnimal);
     }
 
-    [HttpPut("{id:int}")]
-    public ActionResult<AnimalResponseDto> UpdateAnimal([FromRoute] int id, [FromBody] AnimalRequestDto animalBody)
+    [HttpPut("{id:guid}")]
+    public ActionResult<AnimalResponseDto> UpdateAnimal([FromRoute] Guid id, [FromBody] AnimalRequestDto animalBody)
     {
         var updatedAnimalResult = animalService.UpdateAnimal(id, animalBody);
         if (updatedAnimalResult.IsOk)
@@ -46,8 +46,8 @@ public class AnimalsController(IAnimalService animalService) : ControllerBase
         return NotFound(updatedAnimalResult.ErrorMessage);
     }
 
-    [HttpDelete("{id:int}")]
-    public IActionResult DeleteAnimalById(int id)
+    [HttpDelete("{id:guid}")]
+    public IActionResult DeleteAnimalById(Guid id)
     {
         var isDeleted = animalService.DeleteAnimalById(id);
         return isDeleted ? NoContent() : NotFound();
