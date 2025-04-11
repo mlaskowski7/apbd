@@ -1,0 +1,306 @@
+{
+	"info": {
+		"_postman_id": "d611e6f8-d88e-4476-90ce-5ce1c072fb75",
+		"name": "VetClinicShelterApi",
+		"description": "Postman collection for testing the AnimalsController endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31967810"
+	},
+	"item": [
+		{
+			"name": "Get All Animals",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7021/api/animals",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7021",
+					"path": [
+						"api",
+						"animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Animal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Response has an ID\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.exist;",
+							"    pm.environment.set(\"animalId\", jsonData.id);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Bella\",\n  \"weight\": 4.5,\n  \"category\": \"DOG\",\n  \"furColor\": \"#FFD700\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5176/api/animals",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5176",
+					"path": [
+						"api",
+						"animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Animal by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Animal has expected properties\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"name\");",
+							"    pm.expect(jsonData).to.have.property(\"category\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5176/api/animals/{{animalId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5176",
+					"path": [
+						"api",
+						"animals",
+						"{{animalId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Animal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Name is updated\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Updated Bella\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Updated Bella\",\n  \"weight\": 5.0,\n  \"category\": \"Dog\",\n  \"furColor\": \"#FFA500\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5176/api/animals/{{animalId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5176",
+					"path": [
+						"api",
+						"animals",
+						"{{animalId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Animal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5176/api/animals/{{animalId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5176",
+					"path": [
+						"api",
+						"animals",
+						"{{animalId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Visit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Response has visit ID\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.exist;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"animalId\": \"{{animalId}}\",\n  \"visitDate\": \"2025-04-12T10:00:00Z\",\n  \"description\": \"Annual check-up\",\n  \"price\":10.1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5176/api/animals/visits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5176",
+					"path": [
+						"api",
+						"animals",
+						"visits"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Visits by Animal ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is an array of visits\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5176/api/animals/{{animalId}}/visits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5176",
+					"path": [
+						"api",
+						"animals",
+						"{{animalId}}",
+						"visits"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
