@@ -31,7 +31,7 @@ public class AnimalsController(IAnimalService animalService) : ControllerBase
     public ActionResult<AnimalResponseDto> CreateAnimal([FromBody] AnimalRequestDto animalBody)
     {
         var createdAnimal = animalService.CreateAnimal(animalBody);
-        return Ok(createdAnimal);
+        return CreatedAtAction(nameof(GetAnimalById), createdAnimal);
     }
 
     [HttpPut("{id:guid}")]

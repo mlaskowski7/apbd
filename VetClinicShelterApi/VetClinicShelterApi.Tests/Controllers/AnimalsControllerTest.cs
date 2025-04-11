@@ -99,8 +99,8 @@ public class AnimalsControllerTest
         // assert
         Assert.Multiple(() =>
         {
-            var okObjectResult = Assert.IsType<OkObjectResult>(result.Result);
-            var animalResponse = Assert.IsType<AnimalResponseDto>(okObjectResult.Value);
+            var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+            var animalResponse = Assert.IsType<AnimalResponseDto>(createdAtActionResult.Value);
             Assert.Equal("test", animalResponse.Name);
         });
     }
