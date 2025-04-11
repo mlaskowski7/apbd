@@ -4,9 +4,9 @@ namespace VetClinicShelterApi.Models;
 
 public class Animal
 {
-    public Animal(Guid id, string name, AnimalCategory category, double weight, Color furColor)
+    public Animal(string name, AnimalCategory category, double weight, Color furColor)
     {
-        Id = id;
+        Id = Guid.NewGuid();
         Name = name;
         Category = category;
         Weight = weight;
@@ -15,10 +15,10 @@ public class Animal
 
     public Animal()
     {
-        
+        Id = Guid.NewGuid();
     }
     
-    public Guid Id { get; set; }
+    public Guid Id { get; private set; }
     
     public required string Name { get; set; }
     
