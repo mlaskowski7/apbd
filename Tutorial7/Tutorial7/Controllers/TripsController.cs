@@ -9,9 +9,9 @@ namespace Tutorial7.Controllers;
 public class TripsController(ITripService tripService) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TripResponseDto>>> Get()
+    public async Task<ActionResult<IEnumerable<TripResponseDto>>> GetAllAsync()
     {
-        var tripsResult = await tripService.GetAllTrips();
+        var tripsResult = await tripService.GetAllTripsAsync();
 
         return tripsResult.IsOk ? 
             Ok(tripsResult.Result) : 

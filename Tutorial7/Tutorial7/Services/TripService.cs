@@ -7,15 +7,15 @@ namespace Tutorial7.Services;
 
 public class TripService(ITripRepository tripRepository, TripMapper tripMapper) : ITripService
 {
-    public async Task<ResultWrapper<IEnumerable<TripResponseDto>>> GetAllTrips()
+    public async Task<ResultWrapper<IEnumerable<TripResponseDto>>> GetAllTripsAsync()
     {
-        var tripsResult = await tripRepository.GetAll();
+        var tripsResult = await tripRepository.GetAllAsync();
         if (!tripsResult.IsOk)
         {
             return ResultWrapper<IEnumerable<TripResponseDto>>.FromErr(tripsResult);
         }
         var response = tripsResult.Result!.Select(tripMapper.MapToResponse);
-        
+            
         return ResultWrapper<IEnumerable<TripResponseDto>>.Ok(response);
     }
 }

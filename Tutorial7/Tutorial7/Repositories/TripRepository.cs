@@ -21,31 +21,30 @@ public class TripRepository : ITripRepository
         _connectionString = connectionString;
     }
 
-    public async Task<ResultWrapper<IEnumerable<Trip>>> GetAll()
+    public async Task<ResultWrapper<IEnumerable<Trip>>> GetAllAsync()
     {
-        var trips = new Dictionary<int, Trip>();
-        
-        var query = @"
+        return await DataAccessUtils.TryExecuteAsync<IEnumerable<Trip>>(async () =>
+        {
+            var trips = new Dictionary<int, Trip>();
+
+            var query = @"
             SELECT 
                 t.IdTrip, t.Name, t.Description, t.DateFrom, t.DateTo, t.MaxPeople,
                 c.IdCountry, c.Name AS CountryName
             FROM Trip t
             LEFT JOIN Country_Trip ct ON t.IdTrip = ct.IdTrip
             LEFT JOIN Country c ON ct.IdCountry = c.IdCountry";
-    
-        try
-        {
             using (var connection = new SqlConnection(_connectionString))
             using (var command = new SqlCommand(query, connection))
             {
                 await connection.OpenAsync();
-    
+
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
                         int idTrip = (int)reader["IdTrip"];
-    
+
                         if (!trips.ContainsKey(idTrip))
                         {
                             trips[idTrip] = new Trip()
@@ -59,7 +58,7 @@ public class TripRepository : ITripRepository
                                 Countries = new List<Country>()
                             };
                         }
-    
+
                         if (reader["IdCountry"] != DBNull.Value)
                         {
                             trips[idTrip].Countries.Add(new Country
@@ -71,20 +70,8 @@ public class TripRepository : ITripRepository
                     }
                 }
             }
-    
-            return ResultWrapper<IEnumerable<Trip>>.Ok(trips.Values);
-        }
-        catch (SqlException ex)
-        {
-            return ResultWrapper<IEnumerable<Trip>>.Err("Database error: " + ex.Message, (int)HttpStatusCode.InternalServerError);
-        }
-        catch (InvalidCastException ex)
-        {
-            return ResultWrapper<IEnumerable<Trip>>.Err("Data conversion error: " + ex.Message, (int)HttpStatusCode.InternalServerError);
-        }
-        catch (Exception ex)
-        {
-            return ResultWrapper<IEnumerable<Trip>>.Err("Unexpected error: " + ex.Message, (int)HttpStatusCode.InternalServerError);
-        }
+
+            return trips.Values.ToList();
+        });
     }
 }

@@ -5,5 +5,5 @@ namespace Tutorial7.Services;
 
 public interface ITripService
 {
-    Task<ResultWrapper<IEnumerable<TripResponseDto>>> GetAllTrips();
+    Task<ResultWrapper<IEnumerable<TripResponseDto>>> GetAllTripsAsync();
 }

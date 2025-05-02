@@ -5,5 +5,5 @@ namespace Tutorial7.Repositories;
 
 public interface ITripRepository
 {
-    public Task<ResultWrapper<IEnumerable<Trip>>> GetAll();
+    public Task<ResultWrapper<IEnumerable<Trip>>> GetAllAsync();
 }
