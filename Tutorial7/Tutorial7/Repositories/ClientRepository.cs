@@ -22,7 +22,18 @@ public class ClientRepository : IClientRepository
     }
     public async Task<ResultWrapper<IEnumerable<Trip>>> GetClientTripsAsync(int id)
     {
-        var result = await DataAccessUtils.TryExecuteAsync<IEnumerable<Trip>>(async () =>
+        var isClientExistingRes = await IsClientExisting(id);
+        if (!isClientExistingRes.IsOk)
+        {
+            return ResultWrapper<IEnumerable<Trip>>.FromErr(isClientExistingRes);
+        }
+
+        if (!isClientExistingRes.Result)
+        {
+            return ResultWrapper<IEnumerable<Trip>>.Err($"Client with id = {id} was not found", 404);
+        }
+        
+        return await DataAccessUtils.TryExecuteAsync<IEnumerable<Trip>>(async () =>
         {
             var clientTrips = new Dictionary<int, Trip>();
 
@@ -79,13 +90,6 @@ public class ClientRepository : IClientRepository
 
             return clientTrips.Values.ToList();
         });
-
-        if (result.IsOk && !result.Result!.Any())
-        {
-            return ResultWrapper<IEnumerable<Trip>>.Err($"No trips found for client with ID {id}.", 404);
-        }
-
-        return result;
     }
 
     public async Task<ResultWrapper<int>> CreateAsync(string firstName, string lastName, string email, string telephone, string pesel)
@@ -111,6 +115,22 @@ public class ClientRepository : IClientRepository
                 var result = await command.ExecuteScalarAsync();
                 return Convert.ToInt32(result);
             }
+        });
+    }
+
+    private async Task<ResultWrapper<bool>> IsClientExisting(int clientId)
+    {
+        return await DataAccessUtils.TryExecuteAsync<bool>(async () =>
+        {
+            var query = "SELECT COUNT(1) FROM Client WHERE IdClient = @ClientId";
+
+            using var connection = new SqlConnection(_connectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@ClientId", clientId);
+
+            await connection.OpenAsync();
+            var count = (int)await command.ExecuteScalarAsync();
+            return count > 0;
         });
     }
 }
