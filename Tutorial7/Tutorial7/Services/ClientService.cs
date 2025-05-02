@@ -1,4 +1,5 @@
 using System.Collections;
+using Tutorial7.Contracts.Request;
 using Tutorial7.Contracts.Response;
 using Tutorial7.Models;
 using Tutorial7.Repositories;
@@ -23,5 +24,24 @@ public class ClientService(IClientRepository clientRepository) : IClientService
                                                                .ToList();
         
         return ResultWrapper<IEnumerable<ClientTripResponseDto>>.Ok(response);
+    }
+
+    public async Task<ResultWrapper<CreateClientResponseDto>> CreateAsync(CreateClientRequestDto createClientRequestDto)
+    {
+        var createdIdResult = await clientRepository.CreateAsync(
+            createClientRequestDto.FirstName, 
+            createClientRequestDto.LastName, 
+            createClientRequestDto.Email, 
+            createClientRequestDto.Telephone, 
+            createClientRequestDto.Pesel);
+
+        if (!createdIdResult.IsOk)
+        {
+            return ResultWrapper<CreateClientResponseDto>.FromErr(createdIdResult);
+        }
+        
+        var response = new CreateClientResponseDto(createdIdResult.Result);
+        
+        return ResultWrapper<CreateClientResponseDto>.Ok(response);
     }
 }

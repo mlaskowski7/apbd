@@ -87,4 +87,30 @@ public class ClientRepository : IClientRepository
 
         return result;
     }
+
+    public async Task<ResultWrapper<int>> CreateAsync(string firstName, string lastName, string email, string telephone, string pesel)
+    {
+        return await DataAccessUtils.TryExecuteAsync<int>(async () =>
+        {
+            var query = @"
+                INSERT INTO Client (FirstName, LastName, Email, Telephone, Pesel)
+                VALUES (@FirstName, @LastName, @Email, @Telephone, @Pesel);
+                SELECT SCOPE_IDENTITY();";
+
+            using (var connection = new SqlConnection(_connectionString))
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@FirstName", firstName);
+                command.Parameters.AddWithValue("@LastName", lastName);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Telephone", telephone);
+                command.Parameters.AddWithValue("@Pesel", pesel);
+
+                await connection.OpenAsync();
+
+                var result = await command.ExecuteScalarAsync();
+                return Convert.ToInt32(result);
+            }
+        });
+    }
 }
