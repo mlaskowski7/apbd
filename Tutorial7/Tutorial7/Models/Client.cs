@@ -14,5 +14,5 @@ public class Client
     
     public required string Pesel { get; set; }
     
-    public IEnumerable<ClientTrip> ClientTrips { get; set; } = new List<ClientTrip>();
+    public List<ClientTrip> ClientTrips { get; set; } = new List<ClientTrip>();
 }

@@ -6,5 +6,5 @@ public class Country
     
     public required string Name { get; set; }
     
-    public IEnumerable<Trip> Trips { get; set; } = new List<Trip>();
+    public List<Trip> Trips { get; set; } = new List<Trip>();
 }

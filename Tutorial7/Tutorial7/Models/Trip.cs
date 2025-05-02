@@ -14,7 +14,7 @@ public class Trip
     
     public int MaxPeople { get; set; }
     
-    public IEnumerable<ClientTrip> ClientTrips { get; set; } = new List<ClientTrip>();
+    public List<ClientTrip> ClientTrips { get; set; } = new List<ClientTrip>();
     
-    public IEnumerable<Country> Countries { get; set; } = new List<Country>();
+    public List<Country> Countries { get; set; } = new List<Country>();
 }
