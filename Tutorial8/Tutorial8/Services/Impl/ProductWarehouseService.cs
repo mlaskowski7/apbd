@@ -61,6 +61,11 @@ public class ProductWarehouseService : IProductWarehouseService
         return await _productWarehouseRepository.SaveProductWarehouseAsync(productWarehouse);
     }
 
+    public async Task<int> AddProductWarehouseUsingStoredProcedureAsync(AddProductWarehouseRequestDto dto)
+    {
+        return await _productWarehouseRepository.SaveProductWarehouseUsingStoredProcedureAsync(dto.IdProduct, dto.IdWarehouse, dto.Amount, dto.CreatedAt);
+    }
+
     private async Task<(Product, Warehouse)> GetProductAndWarehouseByIds(int productId, int warehouseId)
     {
         var product = await _productRepository.GetProductByIdAsync(productId);

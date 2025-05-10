@@ -83,4 +83,34 @@ public class ProductWarehouseRepository : IProductWarehouseRepository
         }
     }
 
+    public async Task<int> SaveProductWarehouseUsingStoredProcedureAsync(int productId, int warehouseId, int amount, DateTime createdAt)
+    {
+        const string procName = "AddProductToWarehouse";
+
+        await using var connection = new SqlConnection(_connectionString);
+        await using var command = new SqlCommand(procName, connection);
+        command.CommandType = System.Data.CommandType.StoredProcedure;
+
+        command.Parameters.AddWithValue("@IdProduct", productId);
+        command.Parameters.AddWithValue("@IdWarehouse", warehouseId);
+        command.Parameters.AddWithValue("@Amount", amount);
+        command.Parameters.AddWithValue("@CreatedAt", createdAt);
+
+        await connection.OpenAsync();
+
+        try
+        {
+            var result = await command.ExecuteScalarAsync();
+            if (result == null || result == DBNull.Value)
+            {
+                throw new Exception("Stored procedure execution failed to return a new ID.");
+            }
+
+            return Convert.ToInt32(result);
+        }
+        catch (SqlException ex)
+        {
+            throw new Exception($"SQL error executing stored procedure: {ex.Message}", ex);
+        }
+    }
 }
