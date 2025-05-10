@@ -1,11 +1,13 @@
+using Tutorial8.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 
-
 builder.Services.AddSwaggerGen();
+builder.Services.RegisterDependencies();
 
 var app = builder.Build();
 
