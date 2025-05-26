@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Tutorial9.Application.Repositories;
+using Tutorial9.Application.Utils;
 using Tutorial9.Domain.Models;
+using Tutorial9.Infrastructure.Utils;
 
 namespace Tutorial9.Infrastructure.Repositories.Impl;
 
@@ -41,5 +43,14 @@ public class TripRepository(TripsDatabaseContext tripsDbContext) : ITripReposito
             TotalPages = totalPages,
             Items = requestedTrips
         };
+    }
+
+    public async Task<(Trip?, Error?)> FindTripByIdAsync(int tripId, CancellationToken cancellationToken = default)
+    {
+        return await DbOperationsUtils.TryAsync(async () =>
+        {
+            return await _tripsDbSet.Where(t => t.IdTrip == tripId)
+                                    .FirstOrDefaultAsync(cancellationToken);
+        });
     }
 }

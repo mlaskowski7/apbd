@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Tutorial9.Application.Repositories;
 using Tutorial9.Application.Utils;
 using Tutorial9.Domain.Models;
+using Tutorial9.Infrastructure.Utils;
 
 namespace Tutorial9.Infrastructure.Repositories.Impl;
 
@@ -13,32 +14,38 @@ public class ClientRepository(TripsDatabaseContext dbContext) : IClientRepositor
     
     public async Task<(Client?, Error?)> FindClientByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        try
+        return await DbOperationsUtils.TryAsync(async () =>
         {
-            var client = await _clientsDbSet.Include(c => c.ClientTrips)
-                .Where(c => c.IdClient == id)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            return (client, null);
-        }
-        catch (SqlException)
-        {
-            return (null, new Error($"Unexpected exception occurred during db access", HttpStatusCode.InternalServerError));
-        }
-        
+            return await _clientsDbSet.Include(c => c.ClientTrips)
+                                      .Where(c => c.IdClient == id)
+                                      .FirstOrDefaultAsync(cancellationToken);
+        });
     }
 
     public async Task<Error?> DeleteClientByIdAsync(Client client, CancellationToken cancellationToken = default)
     {
-        try
+        return await DbOperationsUtils.TryAsync(async () =>
         {
             _clientsDbSet.Remove(client);
             await dbContext.SaveChangesAsync(cancellationToken);
-            return null;
-        }
-        catch (SqlException)
+        });
+    }
+
+    public async Task<(Client?, Error?)> FindClientByPeselAsync(string pesel, CancellationToken cancellationToken = default)
+    {
+        return await DbOperationsUtils.TryAsync(async () =>
         {
-            return new Error($"Unexpected exception occurred during db access", HttpStatusCode.InternalServerError);
-        }
+            return await _clientsDbSet.Where(c => c.Pesel == pesel)
+                                      .FirstOrDefaultAsync(cancellationToken);
+        });
+    }
+
+    public async Task<Error?> CreateClientAsync(Client client, CancellationToken cancellationToken = default)
+    {
+        return await DbOperationsUtils.TryAsync(async () =>
+        {
+            _clientsDbSet.Add(client);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        });
     }
 }

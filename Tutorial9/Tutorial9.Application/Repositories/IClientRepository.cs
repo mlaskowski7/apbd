@@ -8,4 +8,8 @@ public interface IClientRepository
     Task<(Client?, Error?)> FindClientByIdAsync(int id, CancellationToken cancellationToken = default);
     
     Task<Error?> DeleteClientByIdAsync(Client client, CancellationToken cancellationToken = default);
+    
+    Task<(Client?, Error?)> FindClientByPeselAsync(string pesel, CancellationToken cancellationToken = default);
+    
+    Task<Error?> CreateClientAsync(Client client, CancellationToken cancellationToken = default);
 }
