@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Tutorial9.Entities;
+using Tutorial9.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,10 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<TripsDatabaseContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+builder.Services.AddInfServices(builder.Configuration);
 
 var app = builder.Build();
 

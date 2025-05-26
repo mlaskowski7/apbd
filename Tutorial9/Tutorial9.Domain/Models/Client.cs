@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Tutorial9.Entities;
+﻿namespace Tutorial9.Domain.Models;
 
 public partial class Client
 {

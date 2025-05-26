@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Tutorial9.Domain.Models;
 
-namespace Tutorial9.Entities;
+namespace Tutorial9.Infrastructure;
 
 public partial class TripsDatabaseContext : DbContext
 {
