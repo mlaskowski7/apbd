@@ -19,11 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Tutorial9.Domain\Tutorial9.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Repositories\" />
+      <ProjectReference Include="..\Tutorial9.Application\Tutorial9.Application.csproj" />
     </ItemGroup>
 
 </Project>

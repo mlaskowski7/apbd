@@ -17,14 +17,12 @@ public class TripsController(ITripService tripService) : ControllerBase
         [FromQuery] int? pageSize,
         CancellationToken cancellationToken = default)
     {
-        if (pageNumber.HasValue && pageSize.HasValue)
+        return (pageNumber, pageSize) switch
         {
-            var paginatedTrips = await tripService.GetTripsPaginatedAsync(pageNumber.Value, pageSize.Value, cancellationToken);
-            return Ok(paginatedTrips);
-        }
-
-        var trips = await tripService.GetAllTripsAsync(cancellationToken);
-        return Ok(trips);
+            ({ } page, { } size) => Ok(await tripService.GetTripsPaginatedAsync(page, size, cancellationToken)),
+            ({ } page, null) => Ok(await tripService.GetTripsPaginatedAsync(page, 10, cancellationToken)),
+            _ => Ok(await tripService.GetAllTripsAsync(cancellationToken))
+        };
     }
     
 }

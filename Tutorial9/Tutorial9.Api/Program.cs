@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Tutorial9.Application;
 using Tutorial9.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddInfServices(builder.Configuration);
+builder.Services.AddInfServices(builder.Configuration)
+                .AddApplicationServices();
 
 var app = builder.Build();
 
