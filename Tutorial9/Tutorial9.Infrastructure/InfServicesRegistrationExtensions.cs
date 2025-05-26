@@ -16,7 +16,8 @@ public static class InfServicesRegistrationExtensions
                              ?? throw new ArgumentException("Database default connection string must be set"));
         });
         
-        services.AddScoped<ITripRepository, TripRepository>();
+        services.AddScoped<ITripRepository, TripRepository>()
+                .AddScoped<IClientRepository, ClientRepository>();
         
         return services;
     }

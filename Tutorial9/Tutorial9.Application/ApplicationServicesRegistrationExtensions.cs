@@ -16,7 +16,8 @@ public static class ApplicationServicesRegistrationExtensions
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
-        return services.AddScoped<ITripService, TripService>();
+        return services.AddScoped<ITripService, TripService>()
+                       .AddScoped<IClientService, ClientService>();
     }
     
     private static IServiceCollection AddMappers(this IServiceCollection services)

@@ -6,7 +6,7 @@ using Tutorial9.Domain.Models;
 namespace Tutorial9.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("api/[controller]")]
 public class TripsController(ITripService tripService) : ControllerBase
 {
     [HttpGet]
