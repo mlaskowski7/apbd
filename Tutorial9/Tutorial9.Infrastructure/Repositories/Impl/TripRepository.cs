@@ -40,7 +40,7 @@ public class TripRepository(TripsDatabaseContext tripsDbContext) : ITripReposito
         {
             PageNumber = pageNumber,
             PageSize = pageSize,
-            TotalPages = totalPages,
+            TotalPages = totalPages + 1,
             Items = requestedTrips
         };
     }
