@@ -9,4 +9,6 @@ public class Doctor
     public required string LastName { get; set; }
     
     public required string Email { get; set; }
+    
+    public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>();
 }
