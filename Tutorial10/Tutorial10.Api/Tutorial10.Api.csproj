@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Tutorial10.Application\Tutorial10.Application.csproj" />
       <ProjectReference Include="..\Tutorial10.Infrastructure\Tutorial10.Infrastructure.csproj" />
     </ItemGroup>
 
