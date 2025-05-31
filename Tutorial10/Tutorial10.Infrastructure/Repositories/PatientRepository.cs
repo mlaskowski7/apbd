@@ -12,7 +12,12 @@ public class PatientRepository(ClinicDbContext clinicDbContext) : IPatientReposi
     public async Task<(Patient?, Error?)> FindPatientByIdAsync(int patientId, CancellationToken cancellationToken = default)
     {
         return await DbOperationsUtils.TryAsync<Patient>(async () =>
-            await clinicDbContext.Patients.FirstOrDefaultAsync(d => d.IdPatient == patientId, cancellationToken));
+            await clinicDbContext.Patients.Include(p => p.Prescriptions)
+                                          .ThenInclude(pr => pr.PrescriptionMedicaments)
+                                          .ThenInclude(pm => pm.Medicament)
+                                          .Include(p => p.Prescriptions)
+                                          .ThenInclude(p => p.Doctor)
+                                          .FirstOrDefaultAsync(d => d.IdPatient == patientId, cancellationToken));
     }
 
     public async Task<(Patient?, Error?)> CreatePatientAsync(Patient patient, CancellationToken cancellationToken = default)

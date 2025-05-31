@@ -25,6 +25,7 @@ public static class ServiceRegistrationExtensions
    {
        return services.AddScoped<IDoctorMapper, DoctorMapper>()
                       .AddScoped<IPrescriptionMedicamentMapper, PrescriptionMedicamentMapper>()
-                      .AddScoped<IPrescriptionMapper, PrescriptionMapper>();
+                      .AddScoped<IPrescriptionMapper, PrescriptionMapper>()
+                      .AddScoped<IPatientMapper, PatientMapper>();
    }
 }
