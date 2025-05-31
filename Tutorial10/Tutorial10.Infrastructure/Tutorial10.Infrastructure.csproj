@@ -22,8 +22,4 @@
       <ProjectReference Include="..\Tutorial10.Application\Tutorial10.Application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Repositories\" />
-    </ItemGroup>
-
 </Project>

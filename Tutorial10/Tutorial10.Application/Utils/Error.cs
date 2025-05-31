@@ -17,4 +17,6 @@ public class Error
    public static Error Conflict(string message) => new(message, ErrorType.Conflict);
    
    public static Error BadRequest(string message) => new(message, ErrorType.BadRequest);
+
+   public static Error ServerError(string message) => new(message, ErrorType.Error);
 }
