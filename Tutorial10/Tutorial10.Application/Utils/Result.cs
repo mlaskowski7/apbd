@@ -20,7 +20,7 @@ public class Result<T>
     
     public bool IsOk { get; }
     
-    public bool IsError => !IsOk;
+    public bool IsErr => !IsOk;
 
     public Error Error
     {
@@ -39,7 +39,7 @@ public class Result<T>
     {
         get
         {
-            if (IsError)
+            if (IsErr)
             {
                 throw new InvalidOperationException("This result is ERR, cannot access the value");
             }

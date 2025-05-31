@@ -5,5 +5,5 @@ namespace Tutorial10.Application.Repositories;
 
 public interface IPrescriptionRepository
 {
-   Task<(Prescription?, Error?)> CreatePrescriptionAsync(Prescription prescription);
+   Task<(Prescription?, Error?)> CreatePrescriptionAsync(Prescription prescription, CancellationToken cancellationToken = default);
 }

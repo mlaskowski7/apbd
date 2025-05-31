@@ -15,4 +15,6 @@ public class Error
    public static Error NotFound(string message) => new(message, ErrorType.NotFound);
    
    public static Error Conflict(string message) => new(message, ErrorType.Conflict);
+   
+   public static Error BadRequest(string message) => new(message, ErrorType.BadRequest);
 }

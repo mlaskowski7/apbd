@@ -4,5 +4,5 @@ public record PrescriptionResponseDto(
     int IdPrescription,
     DateTime Date,
     DateTime DueDate,
-    List<MedicamentResponseDto> Medicaments,
+    List<PrescriptionMedicamentResponseDto> Medicaments,
     DoctorResponseDto Doctor);

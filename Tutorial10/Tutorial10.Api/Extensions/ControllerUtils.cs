@@ -19,6 +19,7 @@ public static class ControllerUtils
         {
             ErrorType.NotFound => controller.NotFound(err.Message),
             ErrorType.Conflict => controller.Conflict(err.Message),
+            ErrorType.BadRequest => controller.BadRequest(err.Message),
             _ => controller.StatusCode(500, err.Message)
         };
     } 

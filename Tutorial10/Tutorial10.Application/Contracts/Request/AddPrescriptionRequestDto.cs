@@ -12,6 +12,9 @@ public class AddPrescriptionRequestDto
     public List<PrescriptionMedicamentRequestDto> Medicaments { get; set; }
     
     [Required]
+    public int DoctorId { get; set; }
+    
+    [Required]
     public DateTime Date { get; set; }
    
     [Required]
