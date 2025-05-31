@@ -10,7 +10,7 @@ public static class ServiceRegistrationExtensions
 {
    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
    {
-       return services.AddServices();
+       return services.AddServices().AddMappers();
    }
 
    private static IServiceCollection AddServices(this IServiceCollection services)
