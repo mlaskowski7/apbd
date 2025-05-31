@@ -28,7 +28,7 @@ public class Result<T>
        {
            if (IsOk)
            {
-               throw new InvalidOperationException();
+               throw new InvalidOperationException("This result is OK, cannot access the error");
            }
            
            return _error!;
@@ -41,7 +41,7 @@ public class Result<T>
         {
             if (IsError)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("This result is ERR, cannot access the value");
             }
             
             return _value!;
