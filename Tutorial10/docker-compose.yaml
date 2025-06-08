@@ -1,0 +1,15 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:latest
+    platform: linux/amd64
+    container_name: mssql_db
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=dummy_pass@123
+    volumes:
+      - mssql_db:/var/opt/mssql
+
+volumes:
+  mssql_db:
