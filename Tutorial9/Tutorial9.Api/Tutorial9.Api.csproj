@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+      <UserSecretsId>e2df622d-31e3-43d5-8761-7817d6a02ced</UserSecretsId>
+      <RootNamespace>Tutorial9</RootNamespace>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Tutorial9.Application\Tutorial9.Application.csproj" />
+      <ProjectReference Include="..\Tutorial9.Infrastructure\Tutorial9.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
